@@ -1,0 +1,20 @@
+Package: HDChangePoint
+Type: Package
+Title: This packages estimated individual longitudinal trajectories and their inflection points using parametric and nonparametric parocedures. 
+Version: 0.1.0
+Author: c(person(given = "Unkyung",
+           family = "Lee",
+           role = c("aut", "cre"),
+           email = "unkyunglee@stat.tamu.edu"), 
+           person(given = "Tanya",
+           family = "Garcia",
+           role = c("aut", "cre"),
+           email = "tpgarcia@stat.tamu.edu"), 
+Maintainer: UnkyungLee <unkyunglee@stat.tamu.edu>
+Description: The parametric approach uses a nonlinear mixed effects model, where estimates model parameters at the same time. The inflection point has an random effect, which is 
+             estimated by the best linear unbiased predictors. The multi-stage nonparametric approach uses an iterative algorithm, which has an estimating individual longitudinal trajectories step and 
+             and an estimating individual inflection points step. Two steps are dependent and estimate those estimates alternately until convergence criterion is satistfied. 
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
