@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "HDChangePoint"
 output: github_document
 ---
 
