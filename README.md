@@ -1,4 +1,4 @@
-Untitled
+HDChangePoint
 ================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -127,7 +127,6 @@ head(PSEUDO_PREDICT_HD)
 #> 5 3.292318
 #> 6 3.460673
 ?PSEUDO_PREDICT_HD # this gives you more information on the dataset
-#> starting httpd help server ... done
 ```
 
 We fit our methods to the `PSEUDO_PREDICT_HD` data. First, we specify the parameters and run the function `hd.study()`.
@@ -151,7 +150,7 @@ simu.analysis.results<-hd.study(simu.data=simu.data, m=m, num.interp=num.interp,
                                 tolerance=tolerance, itermax=itermax, iter=iter)
 ```
 
-We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 and Figure 1 in our manuscript. Figure will be automatically saved in your working directory.
+We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript.
 
 ``` r
 # produce results
