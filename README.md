@@ -145,9 +145,9 @@ We fit our methods to the `PSEUDO_PREDICT_HD` data. First, we specify the parame
 # Specify the parameters
 simu.dat<-PSEUDO_PREDICT_HD
 n=80;
-m=40;
-num.interp=40;
-newl=40;
+m=42;
+num.interp=42;
+newl=42;
 mean.diff=1;
 tolerance=0.01;
 itermax=20;
@@ -165,11 +165,11 @@ We obtain the following results for the multi-stage nonparametric estimates and 
 # produce results
 simu.analysis.results$nonpara_summary_table4 # multi-stage nonparametric estimates
 #>             Estimate Std. Error t value Pr(>|t|)
-#> beta0          2.985      0.037  80.671    0.000
-#> beta_CAG       0.229      0.032   7.157    0.000
-#> beta_gender    0.010      0.070   0.136    0.892
-#> sigma_u        0.277         NA      NA       NA
-#> sigma_eps      0.198         NA      NA       NA
+#> beta0          3.021      0.027 113.590     0.00
+#> beta_CAG       0.258      0.023  11.248     0.00
+#> beta_gender    0.012      0.050   0.241     0.81
+#> sigma_u        0.199         NA      NA       NA
+#> sigma_eps      0.173         NA      NA       NA
 simu.analysis.results$para_summary_table4    # parametric NLME estimates
 #>             Value Std.Error  DF t-value p-value
 #> theta1      5.919     0.159 382  37.136   0.000

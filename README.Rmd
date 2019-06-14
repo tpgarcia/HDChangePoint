@@ -130,9 +130,9 @@ We fit our methods to the `PSEUDO_PREDICT_HD` data. First, we specify the parame
 # Specify the parameters
 simu.dat<-PSEUDO_PREDICT_HD
 n=80;
-m=40;
-num.interp=40;
-newl=40;
+m=42;
+num.interp=42;
+newl=42;
 mean.diff=1;
 tolerance=0.01;
 itermax=20;
