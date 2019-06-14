@@ -130,9 +130,9 @@ We fit our methods to the `PSEUDO_PREDICT_HD` data. First, we specify the parame
 # Specify the parameters
 simu.dat<-PSEUDO_PREDICT_HD
 n=80;
-m=45;
-num.interp=45;
-newl=45;
+m=40;
+num.interp=40;
+newl=40;
 mean.diff=1;
 tolerance=0.01;
 itermax=20;
@@ -145,10 +145,11 @@ simu.analysis.results<-hd.study(simu.data=simu.data, m=m, num.interp=num.interp,
 
 ```
 
-We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript.
+We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript. You can also find the result figure in the following folder: man \\ examples\_figures
 ```{r analysis_results}
 # produce results
 simu.analysis.results$nonpara_summary_table4 # multi-stage nonparametric estimates
 simu.analysis.results$para_summary_table4    # parametric NLME estimates
 ```
+
 

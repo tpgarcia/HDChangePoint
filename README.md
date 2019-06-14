@@ -145,9 +145,9 @@ We fit our methods to the `PSEUDO_PREDICT_HD` data. First, we specify the parame
 # Specify the parameters
 simu.dat<-PSEUDO_PREDICT_HD
 n=80;
-m=45;
-num.interp=45;
-newl=45;
+m=40;
+num.interp=40;
+newl=40;
 mean.diff=1;
 tolerance=0.01;
 itermax=20;
@@ -159,17 +159,17 @@ simu.analysis.results<-hd.study(simu.data=simu.data, m=m, num.interp=num.interp,
                                 tolerance=tolerance, itermax=itermax, iter=iter)
 ```
 
-We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript.
+We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript. You can also find the result figure in the following folder: man \\ examples\_figures
 
 ``` r
 # produce results
 simu.analysis.results$nonpara_summary_table4 # multi-stage nonparametric estimates
 #>             Estimate Std. Error t value Pr(>|t|)
-#> beta0          2.980      0.040  75.400    0.000
-#> beta_CAG       0.229      0.034   6.707    0.000
-#> beta_gender   -0.033      0.075  -0.440    0.661
-#> sigma_u        0.296         NA      NA       NA
-#> sigma_eps      0.190         NA      NA       NA
+#> beta0          2.985      0.037  80.671    0.000
+#> beta_CAG       0.229      0.032   7.157    0.000
+#> beta_gender    0.010      0.070   0.136    0.892
+#> sigma_u        0.277         NA      NA       NA
+#> sigma_eps      0.198         NA      NA       NA
 simu.analysis.results$para_summary_table4    # parametric NLME estimates
 #>             Value Std.Error  DF t-value p-value
 #> theta1      5.919     0.159 382  37.136   0.000

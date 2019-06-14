@@ -194,7 +194,7 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
     ## apply scam function to estimate longitudinal trajectory    ##
     ################################################################
 
-    outscam<- scam(TMS~fac1+fac2+s(logDiff,k=10,bs="micx",m=2, by=fac1)+s(logDiff,k=10,bs="micv",m=2, by=fac2),family=gaussian(link="identity"), data= scam.gen)
+    outscam<- scam(TMS~fac1+fac2+s(logDiff,k=20,bs="micx",m=2, by=fac1)+s(logDiff,k=20,bs="micv",m=2, by=fac2),family=gaussian(link="identity"), data= scam.gen)
     #scam.check(outscam)
 
     ## standard deviation for the within-subject error
