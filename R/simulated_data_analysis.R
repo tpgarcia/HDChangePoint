@@ -349,12 +349,12 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
         ind.Ta<-changept(ind.tms.pred~ip(fac.ind.logS, sh=1),fir=TRUE,  ci = TRUE)
         indvidual.Ta[id]<- ind.Ta$chpt
         ind.boot.dist<-ind.Ta$msbt
-<<<<<<< HEAD
+
 
         ## boostrap standarad deviation and 95% confidence interval
         ind.b.sd[id]<-sd(ind.boot.dist)
         ind.cp.boot[id,]<-quantile(sort(ind.boot.dist), prob=c(0.025, 0.975))
-=======
+
 
         ## boostrap standarad deviation and 95% confidence interval
         ind.b.sd[id]<-sd(ind.boot.dist)
@@ -364,17 +364,11 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
 
         ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
         indvidual.Ta[id]<-ind.Ta$chpt
->>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
 
       }else{
 
-<<<<<<< HEAD
         ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
         indvidual.Ta[id]<-ind.Ta$chpt
-
-
-=======
->>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
       }
 
 
@@ -673,11 +667,3 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
 }
 
 
-
-
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
