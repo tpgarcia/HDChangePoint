@@ -15,7 +15,7 @@
 #'        \item{nonpara_summary_table4}{a 5 x 4 array of estimates, standard errors, t-values and p-values for the fixed effects of \code{beta0}, CAG repeates and gender in the inflection point model and scale parameters of the random errors in the inflection point and the longitudinal models.}
 #'        \item{para_summary_table4}{a 7 x 4 array of estimates, standard errors, t-values and p-values for the fixed effects of \code{theta1}, \code{theta2}, \code{beta0}, CAG repeates and gender and scale parameters of the random errors in the inflection point and the longitudinal models. The parametric NLME assumes the logistic model.}
 #'        , which are similar to Table 4 and return Figure 1 in the paper (See the \code{reference}).
-#' @references U.Lee, R.J.Carroll, K.Marder, Y.Wang, T.P.Garcia. (2018+). Estimating Disease Onset from Change Points of Markers Measured with Error.
+#' @references U.Lee, R.J.Carroll, K.Marder, Y.Wang, T.P.Garcia. (2019+). Estimating Disease Onset from Change Points of Markers Measured with Error.
 #' @export
 #'
 #' @examples
@@ -349,6 +349,12 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
         ind.Ta<-changept(ind.tms.pred~ip(fac.ind.logS, sh=1),fir=TRUE,  ci = TRUE)
         indvidual.Ta[id]<- ind.Ta$chpt
         ind.boot.dist<-ind.Ta$msbt
+<<<<<<< HEAD
+
+        ## boostrap standarad deviation and 95% confidence interval
+        ind.b.sd[id]<-sd(ind.boot.dist)
+        ind.cp.boot[id,]<-quantile(sort(ind.boot.dist), prob=c(0.025, 0.975))
+=======
 
         ## boostrap standarad deviation and 95% confidence interval
         ind.b.sd[id]<-sd(ind.boot.dist)
@@ -358,8 +364,17 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
 
         ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
         indvidual.Ta[id]<-ind.Ta$chpt
+>>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
+
+      }else{
+
+<<<<<<< HEAD
+        ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+        indvidual.Ta[id]<-ind.Ta$chpt
 
 
+=======
+>>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
       }
 
 
@@ -660,3 +675,9 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 1e019c4ccae424fd5a5f056475f3487fd881ab67
