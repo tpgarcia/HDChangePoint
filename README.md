@@ -65,7 +65,7 @@ results<-sim.nonpara(n=n, model="logist", dist="normal", k1=k1, k2=k2, num.inter
 Example 1.
 ----------
 
-We give an example to reproduce the part of the simulation results in Table 1 in our manuscript. We consider the `nonpara_logist_visit1` data available from R package `HDChangePoint`. It contains simluation results from the multi-stage nonparametric estimation when the true data are generated from the logistic model with the total number of visit numbers *m* = 5, 6, or 7.
+We give an example to reproduce the part of the simulation results in Table 1 in our manuscript. We consider the `nonpara_logist_visit1_nsim500` data available from R package `HDChangePoint`. It contains simluation results from the multi-stage nonparametric estimation when the true data are generated from the logistic model with the total number of visit numbers *m* = 5, 6, or 7.
 
 ``` r
 library(HDChangePoint)
