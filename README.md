@@ -7,7 +7,7 @@ Overview
 
 The R package `HDChangePoint` implements two estimation methods using the parametric nonlinear mixed effects model (NLME) and the multi-stage nonparametric approaches, which are described in the following manuscript:
 
-**U.Lee, R.J.Carroll, K.Marder, Y.wang and T.P.Garcia. (2018+) "Estimating Disease Onset from Change Points of Markers Measured with Error"**
+**U.Lee, R.J.Carroll, K.Marder, Y.wang and T.P.Garcia. (2019+) "Estimating Disease Onset from Change Points of Markers Measured with Error"**
 
 Those two methods estimate individual longitudinal trajectories in an "S"-shape and their respective inflection points.
 
@@ -69,14 +69,14 @@ We give an example to reproduce the part of the simulation results in Table 1 in
 
 ``` r
 library(HDChangePoint)
-data(nonpara_logist_visit1)
+data(nonpara_logist_visit1_nsim500)
 ```
 
 We specify parameters and obtain the results as the part of the Table 1 and plots (c) and (d) in Figure 2. Figures will be automatrically saved as .eps files in your working directory.
 
 ``` r
 # Specify parameters in the summary function
-nsim=100;
+nsim=500;
 n=80;
 num.interp=45;
 newl=45;
@@ -87,8 +87,9 @@ true.sigma.u=0.05;
 true.sigma.eps=0.05;
 
 # Produce the results 
-simus.out1<-simus.results(nsim=nsim, n=n, res=nonpara_logist_visit1, model="logist", 
-                          num.interp=num.interp, newl=newl, time.length=time.length,
+simus.out1<-simus.results(nsim=nsim, n=n, res=nonpara_logist_visit1_nsim500,
+                          model="logist", num.interp=num.interp, newl=newl,
+                          time.length=time.length,
                           bb.true=bb.true, b0.true=b0.true, 
                           true.sigma.u=true.sigma.u, true.sigma.eps=true.sigma.eps,
                           file="logist_visit1")
@@ -98,8 +99,8 @@ simus.out1<-simus.results(nsim=nsim, n=n, res=nonpara_logist_visit1, model="logi
 
 simus.out1$res.table
 #>       Bias  ESD  ASE   CP
-#> beta0 0.03 0.14 0.16 0.98
-#> beta  0.00 0.00 0.00 0.99
+#> beta0 0.02 0.14 0.16 0.97
+#> beta  0.00 0.00 0.00 0.98
 simus.out1$relative.avr.est.Z
 #>                      Rel.Bias Rel.ESD Rel.Boot.SD Boot.CI.95.lower
 #> relative.mean.inf.pt     0.02    0.03        0.02             4.56
@@ -156,7 +157,8 @@ iter=0;
 # produce two tables to reproduce similar results as in Table 4 and Figure 1 of our manuscript
 simu.analysis.results<-hd.study(simu.data=simu.data, m=m, num.interp=num.interp, 
                                 n=n, newl=newl, mean.diff=mean.diff, 
-                                tolerance=tolerance, itermax=itermax, iter=iter)
+                                tolerance=tolerance, itermax=itermax, iter=iter,     
+                                boot.ci=TRUE)
 ```
 
 We obtain the following results for the multi-stage nonparametric estimates and the parametric NLME estimates, similar to Table 4 in our manuscript. Figure will be automatically saved in your working directory, which is similar to Figure 1 in our manuscript. You can also find the result figure in the following folder: man \\ examples\_figures
