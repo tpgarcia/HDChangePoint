@@ -154,3 +154,4 @@ simu.analysis.results$nonpara_summary_table4 # multi-stage nonparametric estimat
 simu.analysis.results$para_summary_table4    # parametric NLME estimates
 ```
 
+
