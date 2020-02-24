@@ -9,12 +9,13 @@
 #' @param tolerance a parameter for the tolerence for the convergence criterion. Default is 0.009.
 #' @param itermax a parameter for the maximum number of iterations in the multi-stage nonparametric algorithm. Default is 20.
 #' @param iter initial number of iteration in the multi-stage nonparametric algorithm. The default is 0.
+#' @param boot.ci logical value: TRUE if the 95% bootstrap confidence intervals across all subjects are calcuated and plotted on the graph. Default is TRUE.
 #'
 #' @return a list of
 #'        \item{nonpara_summary_table4}{a 5 x 4 array of estimates, standard errors, t-values and p-values for the fixed effects of \code{beta0}, CAG repeates and gender in the inflection point model and scale parameters of the random errors in the inflection point and the longitudinal models.}
 #'        \item{para_summary_table4}{a 7 x 4 array of estimates, standard errors, t-values and p-values for the fixed effects of \code{theta1}, \code{theta2}, \code{beta0}, CAG repeates and gender and scale parameters of the random errors in the inflection point and the longitudinal models. The parametric NLME assumes the logistic model.}
 #'        , which are similar to Table 4 and return Figure 1 in the paper (See the \code{reference}).
-#' @references U.Lee, R.J.Carroll, K.Marder, Y.Wang, T.P.Garcia. (2018+). Estimating Disease Onset from Change Points of Markers Measured with Error.
+#' @references U.Lee, R.J.Carroll, K.Marder, Y.Wang, T.P.Garcia. (2019+). Estimating Disease Onset from Change Points of Markers Measured with Error.
 #' @export
 #'
 #' @examples
@@ -37,14 +38,13 @@
 #' iter=0;
 #'
 #' simu.analysis.results<-hd.study(simu.data=simu.data, m=m, num.interp=num.interp, n=n, newl=newl,
-#'                                mean.diff=mean.diff, tolerance=tolerance, itermax=itermax, iter=iter)
+#'                                mean.diff=mean.diff, tolerance=tolerance, itermax=itermax, iter=iter, boot.ci=TRUE)
 #'
-#' Also, see man/examples/reproduce_simulation_study_analysis.R
 #'
 #'
 
 hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
-                   newl=30,  mean.diff=1, tolerance=0.005, itermax=20, iter=0){
+                   newl=30,  mean.diff=1, tolerance=0.005, itermax=20, iter=0, boot.ci=TRUE){
 
 
 
@@ -148,9 +148,16 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
   ## while loop to estimate average trajectory and inflection point         ##
   ##            as well as individual trajecotries and inflection points    ##
   ############################################################################
+  indvidual.Ta<-rep(100,n);
+  ind.b.sd<-rep(100,n);
+  ind.cp.boot<-array(0, dim=c(n, 2),
+                     dimnames=list(paste("id",1:n,sep=""),c("95% lower", "95% upper"))
+  )
+
 
 
   while(( mean.diff > tolerance)&&(iter<itermax)){
+
     iter<-iter+1
     old.zstar<-zstar;
 
@@ -250,10 +257,49 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
 
 
     ## global inflection point for all subject
-    glob.T<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+    #glob.T<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+    #global.T<-glob.T;
+
+
+
+
+    if(boot.ci==TRUE){
+
+      glob.change.fit<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE,  ci = TRUE)
+      glob.T<- glob.change.fit$chpt
+      boot.dist<-glob.change.fit$msbt
+
+      ## boostrap standarad deviation and 95% confidence interval
+      glob.b.sd<-sd(boot.dist)
+      glob.cp.boot<-quantile(sort(boot.dist), prob=c(0.025, 0.975))
+
+    }else{
+
+      glob.change.fit<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+      glob.T<-glob.change.fit$chpt
+
+
+    }
+
     global.T<-glob.T;
 
 
+    #########################################################################
+    ## inflection points for all subjects                                  ##
+    ## bootstrap 95% confidence interval for the inflection points         ##
+    #########################################################################
+
+    if(boot.ci==TRUE){
+
+      glob.lower.cov.boot<-as.vector(glob.cp.boot["2.5%"])
+      glob.upper.cov.boot<-as.vector(glob.cp.boot["97.5%"])
+
+    }else{
+
+      glob.lower.cov.boot<-NULL
+      glob.upper.cov.boot<-NULL
+
+    }
 
     #########################################
     ### Individual inflection points     ####
@@ -295,11 +341,38 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
       ind.tms.pred<-as.vector(ind.tms.pred)
       fac.ind.logS<-as.vector(fac.ind.logS)
 
-      Ta<-changept(ind.tms.pred~ip(fac.ind.logS, sh=1),fir=TRUE)$chpt
+      #Ta<-changept(ind.tms.pred~ip(fac.ind.logS, sh=1),fir=TRUE)$chpt
 
 
+      if(boot.ci==TRUE){
 
-      indvidual.Ta[id]<-Ta
+        ind.Ta<-changept(ind.tms.pred~ip(fac.ind.logS, sh=1),fir=TRUE,  ci = TRUE)
+        indvidual.Ta[id]<- ind.Ta$chpt
+        ind.boot.dist<-ind.Ta$msbt
+
+
+        ## boostrap standarad deviation and 95% confidence interval
+        ind.b.sd[id]<-sd(ind.boot.dist)
+        ind.cp.boot[id,]<-quantile(sort(ind.boot.dist), prob=c(0.025, 0.975))
+
+
+        ## boostrap standarad deviation and 95% confidence interval
+        ind.b.sd[id]<-sd(ind.boot.dist)
+        ind.cp.boot[id,]<-quantile(sort(ind.boot.dist), prob=c(0.025, 0.975))
+
+      }else{
+
+        ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+        indvidual.Ta[id]<-ind.Ta$chpt
+
+      }else{
+
+        ind.Ta<-changept(tms.pred~ip(newlogS, sh=1),fir=TRUE)$chpt
+        indvidual.Ta[id]<-ind.Ta$chpt
+      }
+
+
+      #indvidual.Ta[id]<-Ta
 
     }
 
@@ -538,9 +611,9 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
   #data from aa.gen
   p<-ggplot(data=aa.gen, aes(x =logDiff, y = TMS, group = person))
 
-   p<-p+geom_line(color="lightgray", alpha=1)+
+  p<-p+geom_line(color="lightgray", alpha=1)+
     ## spaghetti plot
-     stat_smooth(data=aa.gen, method="loess",aes(group=1,colour="blue"), fill="lightblue", linetype="solid", size=1,alpha=0.6)+ #, , se=FALSE, linetype="dashed")
+    stat_smooth(data=aa.gen, method="loess",aes(group=1,colour="blue"), fill="lightblue", linetype="solid", size=1,alpha=0.6)+ #, , se=FALSE, linetype="dashed")
     ## parametric approach
     geom_line(data=population.pred, aes(x =logDiff, y=para.TMS, colour="orange"), size=1, alpha=0.6,  linetype="dotdash")+
     ## scam smooth plot with 95% confidence interval
@@ -555,6 +628,9 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
   ## simple spaghetti plot
   size <- 12
   p +geom_vline(aes(xintercept=global.T),  linetype="dashed")+
+    geom_segment(aes(x = glob.lower.cov.boot, y = 0, xend =glob.lower.cov.boot, yend = 0.5))+
+    annotate("rect", xmin = glob.lower.cov.boot, xmax = glob.upper.cov.boot, ymin = 0, ymax = 1,
+             alpha = .5, colour="lightgrey")+
     scale_colour_manual(name  ="Method",
                         values=c( "blue","orange", "red"), labels =c("Lowess","Parametric NLME","Multi-Stage Nonparametric Method"))+
     scale_linetype_manual(values=c("solid", "dotdash", "dashed" ))+
@@ -581,9 +657,10 @@ hd.study<-function(simu.data=simu.data, m=30, num.interp=30, n=80,
   ggsave("HDtrjectory.pdf",width=8,height=8)
   #graphics.off()
 
+  glob.boot.ci<-cbind(glob.lower.cov.boot, glob.upper.cov.boot)
 
-
- return(list(nonpara_summary_table4=nonpara_summary_table4, para_summary_table4=para_summary_table4
+  return(list(nonpara_summary_table4=nonpara_summary_table4,
+              para_summary_table4=para_summary_table4 #glob.boot.ci=glob.boot.ci
 
   ))
 
